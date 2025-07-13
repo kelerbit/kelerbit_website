@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Send a Job Offer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 60px auto;
+      padding: 30px 40px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button {
+      padding: 12px;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #555;
+    }
+
+    /* Modal */
+    #successModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #successModal .content {
+      background: white;
+      padding: 2rem 3rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    #successModal button {
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Send Me a Job Offer</h2>
+    <form id="offerForm">
+      <div>
+        <label for="name">Your Name</label>
+        <input type="text" name="name" id="name" required />
+      </div>
+      <div>
+        <label for="email">Your Email</label>
+        <input type="email" name="email" id="email" required />
+      </div>
+      <div>
+        <label for="company">Company Name</label>
+        <input type="text" name="company" id="company" required />
+      </div>
+      <div>
+        <label for="position">Position Name</label>
+        <input type="text" name="position" id="position" required />
+      </div>
+      <div>
+        <label for="link">Link to a Vacancy</label>
+        <input type="url" name="link" id="link" required />
+      </div>
+      <button type="submit">Submit Offer</button>
+    </form>
+  </div>
+
+  <!-- Modal -->
+  <div id="successModal">
+    <div class="content">
+      <h3>The form has been successfully sent!</h3>
+      <button onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('offerForm');
+    const modal = document.getElementById('successModal');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      await fetch('/submit-offer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      modal.style.display = 'flex';
+      form.reset();
+    });
+
+    function closeModal() {
+      modal.style.display = 'none';
+    }
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>

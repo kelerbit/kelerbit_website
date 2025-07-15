@@ -5,6 +5,8 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 const port = process.env.PORT || 3000;
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
+
 
 const MONGO_URI = process.env.MONGO_URI;
 
@@ -30,6 +32,10 @@ const Offer = mongoose.model('Offer', offerSchema);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('public'));
 app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -45,6 +51,32 @@ app.post('/submit-offer', async (req, res) => {
     console.error(err);
     res.status(500).json({ status: 'error', error: err });
   }
+});
+
+
+const ADMIN_USERNAME = 'adminKelerbit';
+const ADMIN_PASSWORD = '32445';
+
+
+
+app.post('/admin-login', (req, res) => {
+  const { username, password } = req.body;
+  if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+    res.cookie('isAdmin', 'true', { httpOnly: true });
+    res.status(200).send('OK');
+  } else {
+    res.status(401).send('Unauthorized');
+  }
+});
+
+
+app.get('/api/offers', async (req, res) => {
+  if (req.cookies.isAdmin !== 'true') {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  const offers = await Offer.find().sort({ timestamp: -1 });
+  res.json(offers);
 });
 
 

@@ -80,6 +80,12 @@ app.get('/api/offers', async (req, res) => {
 });
 
 
+app.get('/logout', (req, res) => {
+  res.clearCookie('isAdmin');
+  res.redirect('/admin-login.html');
+});
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

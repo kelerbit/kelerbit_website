@@ -86,6 +86,20 @@ app.get('/logout', (req, res) => {
 });
 
 
+app.delete('/api/offers/:id', async (req, res) => {
+  if (req.cookies.isAdmin !== 'true') {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  try {
+    await Offer.findByIdAndDelete(req.params.id);
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete offer' });
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
+const axios = require('axios');
 
 
 const MONGO_URI = process.env.MONGO_URI;
@@ -86,16 +87,43 @@ app.get('/', (req, res) => {
  */
 
 
+
 app.post('/submit-offer', async (req, res) => {
   try {
     const newOffer = new Offer(req.body);
     await newOffer.save();
+
+    // Отправляем email через Resend
+    await axios.post('https://api.resend.com/emails', {
+      from: 'Kelerbit Form <onboarding@resend.dev>',
+      to: 'kelerbit@gmail.com',
+      subject: `📩 New Offer from ${req.body.name}`,
+      html: `
+        <h3>New Job Offer Submitted</h3>
+        <ul>
+          <li><strong>Name:</strong> ${req.body.name}</li>
+          <li><strong>Email:</strong> ${req.body.email}</li>
+          <li><strong>Company:</strong> ${req.body.company}</li>
+          <li><strong>Position:</strong> ${req.body.position}</li>
+          <li><strong>Link:</strong> <a href="${req.body.link}">${req.body.link}</a></li>
+        </ul>
+      `
+    }, {
+      headers: {
+        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
     res.status(200).json({ status: 'ok' });
+
   } catch (err) {
-    console.error(err);
+    console.error('Submit error:', err);
     res.status(500).json({ status: 'error', error: err });
   }
 });
+
+
 
 
 const ADMIN_USERNAME = 'adminKelerbit';

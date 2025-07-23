@@ -27,6 +27,37 @@
   </style>
 </head>
 <body>
+  <!-- Menu dropdown -->
+  <div id="menu" style="
+  display: none;
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 999;
+  min-width: 180px;
+  ">
+  <a href="/admin-login.html" style="
+    display: block;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    border-bottom: 1px solid #eee;
+  ">🔒 Login as admin</a>
+  <a href="/api-docs" target="_blank" style="
+    display: block;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+  ">📘 API Docs</a>
+  </div>
+
+
   <h1>📋 Received Job Offers</h1>
 
   <div style="text-align: center; margin-bottom: 30px;">
@@ -47,6 +78,21 @@
   <div id="offersContainer"></div>
 
   <script>
+
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('menu');
+
+  toggle.addEventListener('click', () => {
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  });
+
+  // Закрытие меню при клике вне его
+  document.addEventListener('click', (e) => {
+    if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+      menu.style.display = 'none';
+    }
+  });
+
   async function loadOffers() {
     const res = await fetch('/api/offers');
     if (res.status === 401) {

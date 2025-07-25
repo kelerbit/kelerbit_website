@@ -247,6 +247,29 @@ app.delete('/api/offers/:id', async (req, res) => {
 
 
 
+app.get('/api/remote-jobs', async (req, res) => {
+  try {
+    const response = await axios.get('https://remoteok.io/api', {
+      headers: { 'Accept-Encoding': 'application/json' }
+    });
+
+    const data = response.data;
+    const keywords = ["project", "project manager", "pm", "program", "program manager", "delivery", "delivery manager", "scrum", "scrum master", "agile", "agile coach", "product manager", "product owner", "technical manager", "tech manager", "team lead", "it manager", "engineering manager", "operations manager", "implementation manager", "implementation lead", "business analyst", "ba", "coordinator", "technical coordinator", "producer", "executive producer", "release manager", "project coordinator", "portfolio manager", "transformation manager", "customer success manager", "cs manager", "process manager", "workflow manager", "kanban", "lead", "project lead", "strategy manager", "digital manager", "client delivery", "program lead", "director of operations", "engagement manager", "product operations", "service delivery", "it project", "software project", "implementation specialist", "team coordinator", "remote project", "remote manager", "workflow lead"];
+
+    const jobs = data.slice(1).filter(job => {
+      const title = (job.position || '').toLowerCase();
+      return keywords.some(keyword => title.includes(keyword));
+    });
+
+    res.json(jobs);
+  } catch (error) {
+    console.error('Error fetching remote jobs:', error.message);
+    res.status(500).json({ error: 'Failed to fetch jobs' });
+  }
+});
+
+
+
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',

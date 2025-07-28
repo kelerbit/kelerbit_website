@@ -39,7 +39,7 @@ describe('Kelerbit CV App', function () {
     });
   });
 
-  describe('GET /api/remote-jobss', () => {
+  describe('GET /api/remote-jobs', () => {
     it('should return an array of jobs', async () => {
       const res = await request(app).get('/api/remote-jobs');
       expect(res.status).to.equal(200);

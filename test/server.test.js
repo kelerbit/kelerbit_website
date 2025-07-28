@@ -39,7 +39,7 @@ describe('Kelerbit CV App', function () {
     });
   });
 
-  describe('GET /api/remote-jobs', () => {
+  describe('GET /api/remote-jobss', () => {
     it('should return an array of jobs', async () => {
       const res = await request(app).get('/api/remote-jobs');
       expect(res.status).to.equal(200);
@@ -47,11 +47,12 @@ describe('Kelerbit CV App', function () {
     });
   });
 
-  
-  describe('Intentional failure check', () => {
-  it('should fail intentionally', () => {
-    throw new Error('Intentional failure');
-  });
+  describe('GET /api/offers', () => {
+    it('should return an array of offers', async () => {
+      const res = await request(app).get('/api/offers');
+      expect(res.status).to.equal(200);
+      expect(res.body).to.be.an('array');
+    });
   });
 
   after(() => {

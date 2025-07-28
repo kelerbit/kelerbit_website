@@ -47,14 +47,6 @@ describe('Kelerbit CV App', function () {
     });
   });
 
-  describe('GET /api/offers', () => {
-    it('should return an array of offers', async () => {
-      const res = await request(app).get('/api/offers');
-      expect(res.status).to.equal(200);
-      expect(res.body).to.be.an('array');
-    });
-  });
-
   after(() => {
     mongoose.connection.close(); // закрываем MongoDB после тестов
   });

@@ -47,6 +47,13 @@ describe('Kelerbit CV App', function () {
     });
   });
 
+  
+  describe('Intentional failure check', () => {
+  it('should fail intentionally', () => {
+    throw new Error('Intentional failure');
+  });
+  });
+
   after(() => {
     mongoose.connection.close(); // закрываем MongoDB после тестов
   });

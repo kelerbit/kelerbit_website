@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "chai": "^5.2.1",
+    "cypress": "^14.5.3",
     "supertest": "^7.1.4"
   }
 }

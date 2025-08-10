@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Project — Kelerbit Website</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      line-height: 1.6;
+      background-color: #f5f5f5;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    .section {
+      margin-bottom: 1.5rem;
+    }
+    ul {
+      padding-left: 1.2rem;
+    }
+    a {
+      color: #333;
+      text-decoration: none;
+    }
+    a:hover {
+      color: #555;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+    <main class="about-container">
+        <h1>About This Project</h1>
+
+        <section>
+            <h2>Overview</h2>
+            <p>A personal CV website with responsive UI, interactive features, admin dashboard, and integration with external APIs. Built using <strong>HTML, CSS, JavaScript, ReactJS, Express.js, MongoDB, and deployed to both Render (PaaS) and AWS EC2 (with Docker)</strong> for redundancy and flexibility.</p>
+        </section>
+
+        <section>
+            <h2>Frontend Features</h2>
+            <ul>
+                <li>Responsive Design — Optimized for desktop and mobile using <strong>HTML, CSS, JavaScript and ReactJS.</strong></li>
+                <li>Burger Menu — Mobile-friendly navigation for quick access to all pages.</li>
+                <li>Downloadable CV — CV available as a downloadable .docx file.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Core Pages & Functionality</h2>
+            <ul>
+                <li>Home Page — Displays CV and quick access to core sections.</li>
+                <li>Job Offer Submission Page — Allows visitors to submit job offers via a form.</li>
+                <li>Remote PM Jobs Page — Fetches remote Project Manager job listings from a public API with keyword-based filtering and pagination.</li>
+                <li><strong>Swagger API Documentation</strong> — Accessible API reference generated via swagger-jsdoc and swagger-ui-express.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Backend & API</h2>
+            <ul>
+                <li><strong>Express.js Server</strong> — Handles routing, API endpoints, and session management.</li>
+                <li><strong>MongoDB Integration</strong> — Stores submitted job offers securely.</li>
+                <li><strong>Email Notifications</strong> — Sends automated email alerts using Resend when a new offer is received.</li>
+                <li>Admin Authentication — <strong>Login system</strong> with sessions to restrict access to admin features.</li>
+                <li>Admin Dashboard — Lists received job offers (/api/offers endpoint).</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Hosting & Deployment</h2>
+            <ul>
+                <li><strong>Render (PaaS)</strong> — Primary hosting with <strong>GitHub integration</strong> for automated <strong>CI/CD</strong> on each push.</li>
+                <li><strong>AWS EC2 + Docker</strong> — Alternative hosting environment with containerized deployment for full control.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Testing</h2>
+            <ul>
+                <li>Unit Testing — Implemented with <strong>Mocha and Chai</strong>; executed automatically during CI/CD.</li>
+                <li>End-to-End Testing — <strong>Cypress</strong> tests simulate real user interactions to validate site functionality.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Tools & AI Assistance</h2>
+            <p>Project development was supported with the help of <strong>ChatGPT</strong>, <strong>Windsurf AI</strong>, and <strong>GitHub Copilot</strong> for generating, refactoring, and optimizing code.</p>
+        </section>
+    </main>
+
+    <div style="margin-top: 2rem; text-align: center;">
+    <a href="index.html" 
+        style="display: inline-block; padding: 10px 16px; background: #333; color: white; border-radius: 6px; text-decoration: none;">
+        ⬅ Back to Home
+    </a>
+    </div>
+
+</body>
+</html>

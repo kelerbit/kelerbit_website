@@ -11,6 +11,22 @@ const swaggerJsdoc = require('swagger-jsdoc');
 const axios = require('axios');
 
 
+const client = require('prom-client');
+client.collectDefaultMetrics(); // CPU, память, event loop и т.п.
+
+// Кастомный счётчик офферов
+const offersCounter = new client.Counter({
+  name: 'offers_received_total',
+  help: 'Total offers received via /submit-offer',
+});
+
+// Эндпоинт для Prometheus
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', client.register.contentType);
+  res.end(await client.register.metrics());
+});
+
+
 const MONGO_URI = process.env.MONGO_URI;
 
 mongoose.connect(MONGO_URI, {

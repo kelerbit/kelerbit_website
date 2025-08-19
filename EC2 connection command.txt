@@ -1,0 +1,1 @@
+ssh -i ./EC2_key/kelerbit.pem ec2-user@ec2-16-171-135-172.eu-north-1.compute.amazonaws.com

@@ -10,6 +10,11 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const axios = require('axios');
 const client = require('prom-client');
+const offersCounter = new client.Counter({
+  name: 'offers_total',
+  help: 'Total number of offers',
+});
+
 
 
 const MONGO_URI = process.env.MONGO_URI;

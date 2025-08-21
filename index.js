@@ -57,6 +57,43 @@ app.use(cookieParser());
 
 
 
+
+
+// Prometheus метрики
+
+// ✅ Регистрируем метрики
+const collectDefaultMetrics = client.collectDefaultMetrics;
+collectDefaultMetrics({ timeout: 5000 });
+
+// Создаём кастомный счётчик (например, количество запросов)
+const httpRequestsCounter = new client.Counter({
+  name: 'http_requests_total',
+  help: 'Total number of HTTP requests',
+  labelNames: ['method', 'route', 'status']
+});
+
+// Middleware для подсчёта запросов
+app.use((req, res, next) => {
+  res.on('finish', () => {
+    httpRequestsCounter.inc({ 
+      method: req.method, 
+      route: req.path, 
+      status: res.statusCode 
+    });
+  });
+  next();
+});
+
+// ✅ Endpoint для Prometheus
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', client.register.contentType);
+  res.end(await client.register.metrics());
+});
+
+
+// Prometheus метрики
+
+
 /**
  * @swagger
  * /:
@@ -108,6 +145,7 @@ app.post('/submit-offer', async (req, res) => {
   try {
     const newOffer = new Offer(req.body);
     await newOffer.save();
+    offersCounter.inc(); // Увеличиваем счётчик офферов
 
     // Отправляем email через Resend
     await axios.post('https://api.resend.com/emails', {

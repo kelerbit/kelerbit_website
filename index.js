@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const axios = require('axios');
-
+const client = require('prom-client');
 
 
 const MONGO_URI = process.env.MONGO_URI;
